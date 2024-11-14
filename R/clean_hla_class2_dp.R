@@ -1,11 +1,11 @@
 #' @name clean_hla_class2_dp
 #' @title Clean and standardize messy HLA Class II - DP typing data
-#' @description This function processes raw HLA Class II typing data, 
-#' removing inconsistent formatting and unnecessary symbols to ensure a standardized allele format. 
+#' @description This function processes raw HLA Class II typing data,
+#' removing inconsistent formatting and unnecessary symbols to ensure a standardized allele format.
 #' It also imputes homozygosity at loci where one allele is missing.
 #'
 #'
-#' @param data 
+#' @param data
 #' Data frame containing HLA typing information.
 #' @param var_1
 #' HLA on allele 1.
@@ -13,18 +13,22 @@
 #' HLA on allele 2.
 #' @return Cleaned data frame with standardized HLA Class II data in original columns
 #' @export
-#' 
-#' 
+#'
+#'
 #' @import
 #' tidyverse
 #' utils
 #' readr
+#' tidyr
+#' janitor
+#'
 #'
 #' @examples
 #' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
 #' re <- clean_hla_class1(dat, recip_dpa1_1, recip_dpa1_2)
 
-clean_hla_class2_dp <- function(data, var_1, var_2) { 
+clean_hla_class2_dp <-
+function(data, var_1, var_2) {
     data |>
         #* step 0: Rename Columns
         rename(var_1 = {{var_1}}, var_2 = {{var_2}}) |>

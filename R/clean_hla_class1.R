@@ -1,30 +1,5 @@
-#' @name clean_hla_class1
-#' @title Clean messy HLA class I typing data
-#' @description This function processes raw HLA Class I typing data, 
-#' removing inconsistent formatting and unnecessary symbols to ensure a standardized allele format. 
-#' It also imputes homozygosity at loci where one allele is missing.
-#'
-#'
-#' @param data 
-#' Data frame containing HLA typing information.
-#' @param var_1
-#' HLA on allele 1.
-#' @param var_2
-#' HLA on allele 2.
-#' @return Cleaned data frame with standardized HLA Class I data in original columns
-#' @export
-#' 
-#' 
-#' @import
-#' tidyverse
-#' utils
-#' readr
-#'
-#' @examples
-#' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
-#' re <- clean_hla_class1(dat, recip_a_1, recip_a_2)
-
-clean_hla_class1 <- function(data, var_1, var_2) { 
+clean_hla_class1 <-
+function(data, var_1, var_2) { 
     data |>
         #* step 0: Rename Columns
         rename(var_1 = {{var_1}}, var_2 = {{var_2}}) |>
@@ -33,14 +8,14 @@ clean_hla_class1 <- function(data, var_1, var_2) {
                 substr(., nchar(.), nchar(.)) %in% c("N", "n", "p", "g", "q"), "", .
             )), across(c(var_1, var_2), ~ str_replace_all(., "^[0|*|.]+", ""))) |>
         #* step 2: Separate Extra Information
-        separate(
+        tidyr::separate(
             var_1,
             sep = "[({[]",
             into = c("var_1", "misc1"),
             fill = "right",
             extra = "drop"
         ) |>
-        separate(
+        tidyr::separate(
             var_2,
             sep = "[({[]",
             into = c("var_2", "misc2"),
