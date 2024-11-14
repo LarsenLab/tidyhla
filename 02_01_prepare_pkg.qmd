@@ -1,0 +1,186 @@
+---
+title: "Create the Package Structure"
+author: "Geeta Karadkhele & Chris Larsen" 
+format: 
+    html:
+        toc: true
+        toc_float: true
+        toc-depth: 3
+        toc-title: "On this page"
+        code-fold: true
+        code-tools: true
+        html-math-method: katex
+        self-contained: true
+editor: visual
+fig-cap-location: bottom
+execute:
+  echo: true
+  eval: true
+  warning: false
+---
+
+## 1. Create the Package Structure: Use usethis to create the package structure.
+
+```{r}
+library(usethis)
+library(devtools)
+usethis::create_package("~/packages/hlaR_dev/tidyhla")
+
+# check the package structure created
+dir(".")
+```
+
+## 2. Store data
+
+```{r}
+library(readr)
+hla_data <- read_csv("data/raw/test_hla_typing.csv") |> 
+  dplyr::slice_head(n = 10)
+
+head(hla_data)
+```
+
+## 3. Load data into an R package
+
+```{r}
+use_data(hla_data, overwrite =T)
+```
+
+## 4. R Markdown template file in the package
+
+```{r}
+# use_rmarkdown_template(("HLA Examples"))
+```
+
+## 5. Store a function in a file
+
+```{r}
+eval_mism <- function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
+{
+    data <- data |>
+        
+        # Step 1: Rename columns to simplify processing
+        rename(don_1 = {{don_1}}, don_2 = {{don_2}},
+               recip_1 = {{recip_1}}, recip_2 = {{recip_2}}) |>
+        
+        # Step 2: Convert all columns to character to avoid type mismatch issues
+        mutate(across(everything(), as.character),
+               hmz_cnt = 1) |>
+        
+        # Step 3: Set up for row-wise operations
+        rowwise() |>
+        
+        # Step 4: Handle missing or empty values for allele columns
+        mutate(
+            across(c(don_1, don_2), ~ if_else(is.na(.)|. == "", NA, .)),
+            across(c(recip_1, recip_2), ~ if_else(is.na(.)|. == "", NA, .)),
+            across(c(recip_1, recip_2), ~ if_else(is.na(don_1) & is.na(don_2), NA_character_, .x)),
+            across(c(don_1, don_2), ~ if_else(is.na(recip_1) & is.na(recip_2), NA_character_, .x)),
+            
+            # Step 5: Ensure donor and recipient alleles are filled where needed
+            don_2 = if_else(!is.na(don_1) & is.na(don_2), don_1, don_2),
+            don_1 = if_else(!is.na(don_2) & is.na(don_1),don_2,don_1),
+            recip_2 = if_else(!is.na(recip_1) & is.na(recip_2), recip_1, recip_2),
+            recip_1 = if_else(!is.na(recip_2) & is.na(recip_1), recip_2, recip_1),
+            
+            # Step 6: Extract the first two characters from alleles for comparison
+            don_1_1 = str_sub(don_1,1,2),
+            recip_1_1 = str_sub(recip_1,1,2),
+            don_2_1 = str_sub(don_2,1,2),
+            recip_2_1 = str_sub(recip_2,1,2),
+            
+            # Step 7: Calculate mismatch indicators
+            m1_1 =  if_else(don_1_1 %in% c(recip_1_1,recip_2_1), 0,1),
+            m2_1 =  if_else(don_2_1 %in% c(recip_1_1,recip_2_1), 0,1),
+            
+            # Step 8: Summing mismatch indicators to get mismatch count
+            mism_cnt = if_else(
+                is.na(m1_1) & is.na(m2_1),
+                NA_real_, # If both are NA, return NA
+                sum(c(m1_1, m2_1), na.rm = TRUE)
+            )
+        ) |>
+        
+        # Step 9: Final adjustments to ensure accurate mismatch counts
+        mutate(
+                mism_cnt =  if_else(
+                is.na(don_1_1) & is.na(don_2_1) & is.na(recip_1_1) & is.na(recip_2_1),
+                NA_real_, mism_cnt)) |>
+        
+        # Step 10: Remove temporary columns and restore original column names
+        select(-c(m1_1, m2_1, recip_1_1, recip_2_1, don_1_1, don_2_1, hmz_cnt)) |>
+        rename({{don_1}} := don_1 , {{don_2}} := don_2,
+               {{recip_1}} := recip_1, {{recip_2}} := recip_2) |>
+        ungroup()
+    
+}
+
+
+dump("eval_mism",
+     file = "R/eval_mism.R")
+
+```
+
+## 6. Install the package
+
+```{r}
+devtools::install()
+```
+
+```{r}
+use_package(package = "tidyhla", type = "Imports",
+            min_version = NULL)
+install.packages("roxygen2")
+library(roxygen2)
+roxygenize()
+```
+
+## 7. Call functions
+
+```{r}
+library(tidyhla)
+tidyhla:::clean_hla_class1(hla_data, recip_a_1, recip_a_2)|> 
+  tidyhla:::clean_hla_class1(don_a_1, don_a_2) |> 
+  tidyhla:::clean_hla_class2_dp(recip_dpa1_1, recip_dpa1_2) |> 
+  tidyhla:::clean_hla_class1(don_dpa1_1, don_dpa1_2) |> 
+  tidyhla:::clean_hla_class2_dq(recip_dqa1_1, recip_dqa1_2) |> 
+  tidyhla:::clean_hla_class1(don_dqa1_1, don_dqa1_2) |> 
+  tidyhla:::clean_hla_class2_dr(recip_drb1_1, recip_drb1_2) |> 
+  tidyhla:::clean_hla_class1(don_drb1_1, don_drb1_2)|> 
+  eval_mism(don_a_1, don_a_2, recip_a_1, recip_a_2)|> 
+        rename(mm_a = mism_cnt) |> 
+  eval_mism(don_dqa1_1, don_dqa1_2, recip_dqa1_1, recip_dqa1_2) |>
+       rename(mm_dqa1 = mism_cnt) |>
+  eval_mism(don_dpa1_1, don_dpa1_2, recip_dpa1_1, recip_dpa1_2) |>
+       rename(mm_dpa1 = mism_cnt) |> 
+  eval_mism(don_drb1_1, don_drb1_2, recip_drb1_1, recip_drb1_2) |> 
+        rename(mm_drb1 = mism_cnt) |> 
+  select(recip_a_1,recip_a_2,
+         don_a_1, don_a_2,
+         recip_dpa1_1, recip_dpa1_2,
+         don_dpa1_1, don_dpa1_2,
+         recip_dqa1_1, recip_dqa1_2,
+         don_dqa1_1, don_dqa1_2,
+         recip_drb1_1, recip_drb1_2,
+         don_drb1_1, don_drb1_2,
+         mm_a,
+         mm_dqa1,
+         mm_dpa1,
+         mm_drb1
+         )
+```
+### work on this tomorrow
+```{r}
+use_vignette("tidy_hla")
+use_namespace() 
+use_readme_rmd()
+use_testthat() 
+```
+
+```{r}
+use_package(package = "tidy_hla", type = "Imports",
+            min_version = NULL)
+install.packages("roxygen2")
+library(roxygen2)
+roxygenize()
+```
