@@ -1,0 +1,33 @@
+Package: tidyhla
+Title: A Comprehensive Toolkit for Cleaning and Analyzing HLA Typing Data
+Version: 0.0.0.9000
+Authors@R: 
+    c(person("Geeta","Karadkhele",email = "gkaradk@emory.edu", role = c("aut", "cre")),
+             person("Christian P","Larsen",email = "clarsen@emory.edu", role = c("cph", "aut")))
+Description: The tidyhla package provides a streamlined and efficient toolkit for cleaning, processing, and analyzing HLA typing data using a tidyverse-centric approach. 
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests:
+    knitr,
+    rmarkdown
+Depends: 
+    R (>= 4.1.0)
+LazyData: true
+Imports: 
+    tidyhla
+    devtools,
+    tidyverse,
+    dplyr,
+    reshape2,
+    schoolmath,
+    tibble,
+    tidyselect,
+    stringr,
+    purrr,
+    tidyr,
+    utils,
+    readr,
+    janitor
