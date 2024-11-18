@@ -50,7 +50,7 @@ hla_data <- read.csv(system.file("extdata/example", "test_hla_typing.csv", packa
 
 ### Contributions
 
-We welcome contributions! Feel free to submit pull requests or report issues on our [GitHub repository](https://github.com/yourusername/tidyhla).
+We welcome contributions! Feel free to submit pull requests or report issues on our [GitHub repository](https://github.com/LarsenLab/tidyhla).
 
 ---
 
