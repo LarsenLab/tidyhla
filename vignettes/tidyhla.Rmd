@@ -10,13 +10,10 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set
-(collapse = TRUE,
-  comment = "#>")
-```
-
-```{r setup}
-library(tidyhla)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
 ### Introduction
@@ -29,6 +26,11 @@ install.packages("devtools")
 
 # Install tidyhla from GitHub
 devtools::install_github("LarsenLab/tidyhla")
+```
+
+
+```{r setup}
+library(tidyhla)
 ```
 
 
