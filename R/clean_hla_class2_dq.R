@@ -40,7 +40,7 @@ function(data, var_1, var_2) {
         separate(var_1, sep = "[({[]", into = c("var_1", "misc1"), fill = "right", extra = "drop") |>
         separate(var_2, sep = "[({[]", into = c("var_2", "misc2"), fill = "right", extra = "drop") |>
         #* step 3: Remove Unnecessary Columns
-        select(-c(misc1, misc2)) |>
+        dplyr::select(-c(misc1, misc2)) |>
         mutate(
             #* step 4: Clean Specific Substrings
             across(c(var_1, var_2), ~ str_remove(., ":bgcwt|:bhjv|:ecaub")),
@@ -75,7 +75,7 @@ function(data, var_1, var_2) {
             var_2 = if_else(str_detect(var_2, "X|x|NA_character_| ") & str_detect(var_1, "X|x|NA_character_| "), NA_character_, var_2)
         ) |>
         #* step 12: Remove Redundant Columns
-        select(-c(var_1_c, var_2_c))  |>
+        dplyr::select(-c(var_1_c, var_2_c))  |>
         #* step 13: Fill Empty Cells Based on Paired Values
         mutate(
             var_1 = if_else(var_1 == "" & var_2 != "", var_2, var_1),

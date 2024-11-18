@@ -14,7 +14,6 @@
 #' @return Cleaned data frame with standardized HLA Class I data in original columns
 #' @export
 #'
-#'
 #' @import
 #' tidyverse
 #' utils
@@ -107,5 +106,5 @@ function(data, var_1, var_2) {
         #* step 11: Finalize Column Names
         rename({{var_1}} := var_1, {{var_2}} := var_2) |>
         #* step 12: Remove Extra Columns
-        select(-c("misc1", "misc2"))
+        dplyr::select(-c("misc1", "misc2"))
 }
