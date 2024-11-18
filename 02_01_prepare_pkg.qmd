@@ -44,10 +44,10 @@ library(readr)
 
 ```{r}
 
-# hla_data <- read_csv("data/raw/test_hla_typing.csv") |> 
-#   dplyr::slice_head(n = 10)
-# 
-# head(hla_data)
+hla_data <- read_csv("data/raw/test_hla_typing.csv") |>
+  dplyr::slice_head(n = 10)
+
+head(hla_data)
 ```
 
 ## 4. Load data into an R package
@@ -149,6 +149,7 @@ library(readr)
 ```
 
 ## 9. Unit tests
+
 ```{r}
 #use_testthat()
 
@@ -159,12 +160,14 @@ library(readr)
 ```
 
 ## 10. Check stauts of the package
+
 ```{r}
 #usethis::use_description()
 #devtools:: check()
 ```
 
 ## 11. Test the package
+
 ```{r}
 #test_package("tidyhla")
 ```
@@ -208,7 +211,3 @@ tidyhla:::clean_hla_class1(hla_data, recip_a_1, recip_a_2)|>
          mm_drb1
          )
 ```
-
-
-
-
