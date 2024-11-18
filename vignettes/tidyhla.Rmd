@@ -1,0 +1,79 @@
+---
+title: "Using tidyhla for HLA Typing Data Processing"
+author: "Geeta Karadkhele and Chris Larsen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using tidyhla for HLA Typing Data Processing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set
+(collapse = TRUE,
+  comment = "#>")
+```
+
+```{r setup}
+library(tidyhla)
+```
+
+### Introduction
+
+The tidyhla package simplifies the preprocessing, cleaning, and analysis of HLA typing data. It provides functions to standardize allele formats, evaluate donor-recipient mismatches, and clean messy data efficiently. This vignette will guide you through key functionalities with real-world examples.
+
+```{r}
+# Install devtools if not already installed
+install.packages("devtools")
+
+# Install tidyhla from GitHub
+devtools::install_github("LarsenLab/tidyhla")
+```
+
+
+#### Cleaning HLA Typing Data
+
+##### Example: HLA Class I Cleaning
+##### Text: Use clean_hla_class1() to clean and standardize Class I HLA typing data. 
+
+```{r}
+# Example data
+hla_data <- data.frame(
+  allele1 = c("A*01:01N", "A*02:01", "A*03:02G"),
+  allele2 = c("A*01:02P", "A*02:03", "A*03:04")
+)
+
+# Clean Class I data
+cleaned_class1 <- clean_hla_class1(hla_data, var_1 = allele1, var_2 = allele2)
+cleaned_class1
+```
+
+#### Evaluating Mismatches
+##### Example data 
+##### Text: Use eval_mism() to evaluate mismatches between donor and recipient alleles.
+
+```{r}
+mismatch_data <- data.frame(
+  donor_allele1 = c("A*01:01", "A*02:01"),
+  donor_allele2 = c("A*01:02", "A*02:03"),
+  recipient_allele1 = c("A*01:01", "A*03:04"),
+  recipient_allele2 = c("A*01:02", "A*03:05")
+)
+
+# Evaluate mismatches
+mismatches <- eval_mism(
+  mismatch_data,
+  don_1 = donor_allele1,
+  don_2 = donor_allele2,
+  recip_1 = recipient_allele1,
+  recip_2 = recipient_allele2
+)
+mismatches
+```
+
+
+```{r}
+sessionInfo()
+```
+
