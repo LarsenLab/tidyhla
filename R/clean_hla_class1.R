@@ -1,5 +1,32 @@
+#' @name clean_hla_class1
+#' @title Clean and standardize messy HLA Class I typing data
+#' @description This function processes raw HLA Class I typing data,
+#' removing inconsistent formatting and unnecessary symbols to ensure a standardized allele format.
+#' It also imputes homozygosity at loci where one allele is missing.
+#'
+#'
+#' @param data
+#' Data frame containing HLA typing information.
+#' @param var_1
+#' HLA on allele 1.
+#' @param var_2
+#' HLA on allele 2.
+#' @return Cleaned data frame with standardized HLA Class I data in original columns
+#' @export
+#'
+#'
+#' @import
+#' tidyverse
+#' utils
+#' readr
+#' tidyr
+#' janitor
+#' dplyr
+#'
+#'
+#'
 clean_hla_class1 <-
-function(data, var_1, var_2) { 
+function(data, var_1, var_2) {
     data |>
         #* step 0: Rename Columns
         rename(var_1 = {{var_1}}, var_2 = {{var_2}}) |>

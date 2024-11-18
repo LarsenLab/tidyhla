@@ -21,6 +21,7 @@
 #' readr
 #' tidyr
 #' janitor
+#' dplyr
 #'
 #'
 #' @examples
