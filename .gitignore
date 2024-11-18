@@ -5,3 +5,4 @@ R/.DS_Store
 .Rbuildignore
 inst/doc
 *.Rproj
+*.qmd
