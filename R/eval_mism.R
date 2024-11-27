@@ -63,8 +63,21 @@ function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
             recip_2_1 = str_sub(recip_2,1,2),
 
             # Step 7: Calculate mismatch indicators
-            m1_1 =  if_else(don_1_1 %in% c(recip_1_1,recip_2_1), 0,1),
-            m2_1 =  if_else(don_2_1 %in% c(recip_1_1,recip_2_1), 0,1),
+
+            # m1_1 =  if_else(don_1_1 %in% c(recip_1_1,recip_2_1), 0,1),
+            # m2_1 =  if_else(don_2_1 %in% c(recip_1_1,recip_2_1), 0,1))
+            mutate(
+              m1_1 = if_else(
+                don_1_1 != don_2_1,  # Condition when don_1_1 != don_2_1
+                if_else(don_1_1 %in% c(recip_1_1, recip_2_1), 0, 1),  # Calculate m1_1
+                if_else(don_1_1 %in% c(recip_1_1, recip_2_1), 0, 1)   # When don_1_1 == don_2_1
+              ),
+              m2_1 = if_else(
+                don_1_1 != don_2_1,  # Condition when don_1_1 != don_2_1
+                if_else(don_2_1 %in% c(recip_1_1, recip_2_1), 0, 1),  # Calculate m2_1
+                NA_real_  # When don_1_1 == don_2_1
+              )
+            ),
 
             # Step 8: Summing mismatch indicators to get mismatch count
             mism_cnt = if_else(
