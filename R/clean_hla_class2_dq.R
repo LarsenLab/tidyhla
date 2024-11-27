@@ -21,6 +21,7 @@
 #' readr
 #' tidyr
 #' janitor
+#' dplyr
 #'
 #' @examples
 #' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
