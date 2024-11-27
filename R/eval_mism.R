@@ -1,3 +1,32 @@
+#' @name eval_mism
+#' @title Evaluate HLA Mismatches
+#' @description Calculates the number of mismatches between donor and recipient HLA alleles.
+#' The function standardizes input values, aligns missing data,
+#' and assesses mismatches for two sets of alleles per donor and recipient.
+#'
+#'
+#' @param data A data frame containing donor and recipient HLA alleles.
+#' @param don_1 Column name for the first donor allele.
+#' @param don_2 Column name for the second donor allele.
+#' @param recip_1 Column name for the first recipient allele.
+#' @param recip_2 Column name for the second recipient allele.
+#' @param hmz_cnt Default value is 1. Used to set a homozygosity counter (not used in calculations in this version).
+#'
+#' @return A modified data frame with mismatches calculated between donor and recipient alleles.
+#' @export
+#'
+#'
+#' @import
+#' tidyverse
+#' utils
+#' readr
+#' dplyr
+#' stringr
+#'
+#' @examples
+#' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
+#' re <- eval_mism(dat, don_a_1, don_a_2, recip_a_1, recip_a_2)
+
 eval_mism <-
 function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
 {
