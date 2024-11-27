@@ -23,7 +23,7 @@
 #' dplyr
 #'
 #'
-#'
+
 clean_hla_class1 <-
 function(data, var_1, var_2) {
     data |>
