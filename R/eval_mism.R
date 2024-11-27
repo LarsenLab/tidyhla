@@ -27,6 +27,7 @@
 #' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
 #' re <- eval_mism(dat, don_a_1, don_a_2, recip_a_1, recip_a_2)
 
+
 eval_mism <-
 function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
 {
