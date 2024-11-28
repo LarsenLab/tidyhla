@@ -14,3 +14,4 @@ Depends:
     dplyr,
     R (>= 2.10)
 LazyData: true
+
