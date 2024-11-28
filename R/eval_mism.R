@@ -93,7 +93,6 @@ function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
             m2_1 = case_when(
               don_2_1 != don_1_1 & don_2_1 == recip_1_1 | don_2_1 != don_1_1 & don_2_1 == recip_2_1  ~ 0,
               don_2_1 != don_1_1 & don_2_1 != recip_1_1 | don_2_1 != don_1_1 & don_2_1 != recip_2_1  ~ 1,
-              #don_2_1 == don_1_1 & don_2_1 %in% c(recip_1_1,recip_2_1)  ~0,
               don_2_1 == don_1_1 & don_2_1 != recip_1_1 | don_2_1 == don_1_1 & don_2_1 != recip_2_1  ~ 0,
               TRUE ~ 1
             ),
