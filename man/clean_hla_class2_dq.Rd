@@ -25,4 +25,5 @@ It also imputes homozygosity at loci where one allele is missing.
 dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
 re <- clean_hla_class1(dat, recip_dqa1_1, recip_dqa1_2)
 
+
 }
