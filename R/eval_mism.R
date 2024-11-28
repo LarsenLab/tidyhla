@@ -26,7 +26,6 @@
 #' @examples
 #' dat <-  read.csv(system.file("extdata/example", "HLA_Clean_test.csv", package = "tidy_hla"))
 #' re <- eval_mism(dat, don_a_1, don_a_2, recip_a_1, recip_a_2)
-
 eval_mism <-
 function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
 {
@@ -82,6 +81,7 @@ function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
 
             # m1_1 =  if_else(don_1_1 %in% c(recip_1_1,recip_2_1), 0,1),
             # m2_1 =  if_else(don_2_1 %in% c(recip_1_1,recip_2_1), 0,1))
+
             m1_1 = case_when(
               don_1_1 != don_2_1 & don_1_1 == recip_1_1 | don_1_1 != don_2_1 & don_1_1 == recip_2_1  ~ 0,
               don_1_1 != don_2_1 & don_1_1 != recip_1_1 | don_1_1 != don_2_1 & don_1_1 != recip_2_1  ~ 1,
@@ -95,7 +95,6 @@ function(data, don_1, don_2, recip_1, recip_2, hmz_cnt=1)
               don_2_1 == don_1_1 & don_2_1 %in% c(recip_1_1,recip_2_1)  ~0,
               TRUE ~ 1
             ),
-
 
             # Step 8: Summing mismatch indicators to get mismatch count
             mism_cnt = if_else(

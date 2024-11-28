@@ -28,6 +28,7 @@
 #' re <- clean_hla_class1(dat, recip_dqa1_1, recip_dqa1_2)
 #'
 #'
+
 clean_hla_class2_dq <-
 function(data, var_1, var_2) {
     data |>
