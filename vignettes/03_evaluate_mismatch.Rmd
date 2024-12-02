@@ -1,0 +1,50 @@
+---
+title: "Evaluating Mismatches with tidyhla"
+author: "Geeta Karadkhele and Chris Larsen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Evaluating Mismatches with tidyhla}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Evaluating Mismatches
+
+The eval_mism() function in tidyhla helps evaluate mismatches between donor and recipient alleles.
+
+#### Example: Evaluating Mismatches
+
+```{r}
+# Example data
+mismatch_data <- data.frame(
+  donor_allele1 = c("A*01:01", "A*02:01"),
+  donor_allele2 = c("A*01:02", "A*02:03"),
+  recipient_allele1 = c("A*01:01", "A*03:04"),
+  recipient_allele2 = c("A*01:02", "A*03:05")
+)
+
+# Evaluate mismatches
+mismatches <- eval_mism(
+  mismatch_data,
+  don_1 = donor_allele1,
+  don_2 = donor_allele2,
+  recip_1 = recipient_allele1,
+  recip_2 = recipient_allele2
+)
+
+mismatches
+```
+
+
+```{r}
+sessionInfo()
+```
+
