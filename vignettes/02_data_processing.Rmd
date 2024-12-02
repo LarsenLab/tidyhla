@@ -1,0 +1,35 @@
+---
+title: "Cleaning and Processing HLA Typing Data with tidyhla"
+author: "Geeta Karadkhele and Chris Larsen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cleaning and Processing HLA Typing Data with tidyhla}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Cleaning HLA Typing Data
+
+The tidyhla package provides functions like clean_hla_class1() to clean and standardize Class I and Class II HLA typing data.
+
+#### Example: HLA Class I Cleaning
+```{r}
+# Example data
+hla_data <- data.frame(
+  allele1 = c("A*01:01N", "A*02:01", "A*03:02G"),
+  allele2 = c("A*01:02P", "A*02:03", "A*03:04")
+)
+
+# Clean Class I data
+cleaned_class1 <- clean_hla_class1(hla_data, var_1 = allele1, var_2 = allele2)
+cleaned_class1
+```
+
