@@ -1,0 +1,37 @@
+---
+title: "Introduction to tidyhla"
+author: "Geeta Karadkhele and Chris Larsen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tidyhla}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Introduction
+
+The tidyhla package simplifies the preprocessing, cleaning, and analysis of HLA typing data. It provides functions to standardize allele formats, evaluate donor-recipient mismatches, and clean messy data efficiently. This vignette will guide you through key functionalities with real-world examples.
+
+#### Installation
+```{r}
+# Install devtools if not already installed
+install.packages("devtools")
+
+# Install tidyhla from GitHub
+devtools::install_github("LarsenLab/tidyhla")
+```
+
+#### Loading the Package
+```{r setup}
+library(tidyhla)
+```
+
+
