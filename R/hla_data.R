@@ -8,6 +8,7 @@
 #' \item{var_2}{Character HLA typing value 2}
 #' }
 #'
+#' @keywords internal
 #' @examples
 #' # example code
 #'    hla_data
